@@ -151,6 +151,11 @@ class MainFragment : BaseFragment(), CardStackListener, MatchActionListner {
         }
 
         // Update adapter and update it to database
+        updateMatch(isAccepted)
+
+    }
+
+    private fun updateMatch(isAccepted: Int) {
         val lastMatchModel = viewModel.matchesList.get(lastPosition)
         if (lastMatchModel.isAccepted != isAccepted) {
             lastMatchModel.isAccepted = isAccepted
@@ -175,7 +180,14 @@ class MainFragment : BaseFragment(), CardStackListener, MatchActionListner {
 
     override fun matchActionListner(isAccepted: Boolean, position: Int) {
         lastPosition = position
-        swipe(isAccepted)
+        var accepted: Int = -1
+        if (isAccepted) {
+            accepted = 1
+        } else {
+            accepted = 0
+        }
+        updateMatch(accepted)
+//        swipe(isAccepted)
     }
 
     private fun swipe(accepted: Boolean) {
