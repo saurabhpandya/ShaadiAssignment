@@ -7,18 +7,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.LinearInterpolator
+import android.widget.RadioGroup
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.fidato.shaadiassignment.base.BaseFragment
 import com.fidato.shaadiassignment.databinding.MainFragmentBinding
 import com.fidato.shaadiassignment.main.adapter.CardStackAdapter
 import com.fidato.shaadiassignment.main.viewmodel.MainViewModel
+import com.fidato.shaadiassignment.model.MatchesModel
 import com.fidato.shaadiassignment.utility.MatchActionListner
 import com.fidato.shaadiassignment.utility.Status
 import com.fidato.shaadiassignment.utility.Utility
 import com.yuyakaido.android.cardstackview.*
 
-class MainFragment : BaseFragment(), CardStackListener, MatchActionListner {
+class MainFragment : BaseFragment(), CardStackListener, MatchActionListner,
+    RadioGroup.OnCheckedChangeListener {
 
     companion object {
         fun newInstance() = MainFragment()
@@ -30,7 +33,7 @@ class MainFragment : BaseFragment(), CardStackListener, MatchActionListner {
     private lateinit var binding: MainFragmentBinding
 
     private val manager by lazy { CardStackLayoutManager(this.activity, this) }
-    private val stackAdapter by lazy { CardStackAdapter(emptyList(), this) }
+    private val stackAdapter by lazy { CardStackAdapter(ArrayList<MatchesModel>(), this) }
 
     private var lastPosition = -1
 
@@ -76,6 +79,8 @@ class MainFragment : BaseFragment(), CardStackListener, MatchActionListner {
             }
         }
 
+        binding.rdoGrpGroupBy.setOnCheckedChangeListener(this)
+
     }
 
     private fun getData() {
@@ -87,7 +92,8 @@ class MainFragment : BaseFragment(), CardStackListener, MatchActionListner {
                     binding.prgrs.visibility = View.GONE
                     Log.d(TAG, "Sucess:${it.data}")
                     if (it.data!!) {
-                        setupObserver()
+                        binding.rdobtnAll.isChecked = true
+//                        setupObserver()
                     }
                 }
             }
@@ -96,32 +102,12 @@ class MainFragment : BaseFragment(), CardStackListener, MatchActionListner {
     }
 
     private fun setupObserver() {
-
-//        viewModel.getAcceptedMatchesFromDB().observe(viewLifecycleOwner, Observer {
-//            when (it.status) {
-//                Status.LOADING -> Log.d(TAG, "Loading")
-//                Status.ERROR -> Log.d(TAG, "Error:${it.message}")
-//                Status.SUCCESS -> {
-//                    Log.d(TAG, "Sucess:${it.data?.size}")
-//                    Log.d(TAG, "Sucess:Data${it.data}")
-//                    if (lastPosition == -1) {
-//                        stackAdapter.setMatches(0, it.data!!)
-//                    } else {
-//                        stackAdapter.setMatches(lastPosition, it.data!!)
-//                    }
-//
-//                }
-//            }
-//        })
-
         viewModel.getMatchesFromDB().observe(viewLifecycleOwner, Observer {
             when (it.status) {
                 Status.LOADING -> binding.prgrs.visibility = View.VISIBLE
                 Status.ERROR -> binding.prgrs.visibility = View.VISIBLE
                 Status.SUCCESS -> {
                     binding.prgrs.visibility = View.GONE
-                    Log.d(TAG, "Sucess:${it.data?.size}")
-                    Log.d(TAG, "Sucess:Data${it.data}")
                     if (lastPosition == -1) {
                         stackAdapter.setMatches(0, it.data!!)
                     } else {
@@ -205,4 +191,25 @@ class MainFragment : BaseFragment(), CardStackListener, MatchActionListner {
         binding.cardStackView.swipe()
     }
 
+    override fun onCheckedChanged(group: RadioGroup?, checkedId: Int) {
+        when (checkedId) {
+            binding.rdobtnMale.id -> getMatchesByGender("male")
+            binding.rdobtnFemale.id -> getMatchesByGender("female")
+            binding.rdobtnAll.id -> setupObserver()
+        }
+    }
+
+    private fun getMatchesByGender(gender: String) {
+        viewModel.getMatchesByGender(gender).observe(viewLifecycleOwner, Observer {
+            when (it.status) {
+                Status.LOADING -> binding.prgrs.visibility = View.VISIBLE
+                Status.ERROR -> binding.prgrs.visibility = View.VISIBLE
+                Status.SUCCESS -> {
+                    binding.prgrs.visibility = View.GONE
+                    lastPosition = -1
+                    stackAdapter.setMatches(0, it.data!!)
+                }
+            }
+        })
+    }
 }

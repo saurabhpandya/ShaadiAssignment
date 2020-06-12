@@ -1,6 +1,7 @@
 package com.fidato.shaadiassignment.main.viewmodel
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import com.fidato.shaadiassignment.base.BaseViewModel
@@ -35,7 +36,7 @@ class MainViewModel(application: Application, private val mainRepository: MainRe
         }
     }
 
-    var matchesList = emptyList<MatchesModel>()
+    var matchesList = ArrayList<MatchesModel>()
 
     private fun prepareDataForDB(arylstMatches: ArrayList<Matches>): ArrayList<MatchesModel> {
         val arylstMatchesModel = ArrayList<MatchesModel>()
@@ -74,10 +75,12 @@ class MainViewModel(application: Application, private val mainRepository: MainRe
         return arylstMatchesModel
     }
 
-    fun getAcceptedMatchesFromDB() = liveData(Dispatchers.IO) {
+    fun getMatchesByAcceptanceState(acceptanceState: Int) = liveData(Dispatchers.IO) {
         emit(Resource.loading(null))
         try {
-            matchesList = mainRepository.getAcceptedMatches() ?: matchesList
+            matchesList = ArrayList(
+                mainRepository.getMatchesByAcceptanceState(acceptanceState) ?: matchesList
+            )
             emit(Resource.success(matchesList))
         } catch (e: Exception) {
             e.printStackTrace()
@@ -86,10 +89,22 @@ class MainViewModel(application: Application, private val mainRepository: MainRe
 
     }
 
+    fun getMatchesByGender(gender: String) = liveData(Dispatchers.IO) {
+        emit(Resource.loading(null))
+        try {
+            matchesList = ArrayList(mainRepository.getMatchesByGender(gender) ?: matchesList)
+            emit(Resource.success(matchesList))
+        } catch (e: Exception) {
+            e.printStackTrace()
+            emit(Resource.error(null, e.message ?: "Error Occured"))
+        }
+    }
+
     fun getMatchesFromDB() = liveData(Dispatchers.IO) {
         emit(Resource.loading(null))
         try {
-            matchesList = mainRepository.getMatches() ?: matchesList
+            matchesList = ArrayList(mainRepository.getMatches() ?: matchesList)
+            Log.d(TAG, "setupObserver:: $matchesList")
             emit(Resource.success(matchesList))
         } catch (e: Exception) {
             e.printStackTrace()

@@ -29,7 +29,9 @@ class MainRepository(private val mainNetworkDataProvider: MainNetworkDataProvide
 
     suspend fun getMatches() = matchesDao?.getAllMatches()
 
-    suspend fun getAcceptedMatches() = matchesDao?.getAcceptedMatches()
+    suspend fun getMatchesByGender(gender: String) = matchesDao?.getMatchesByGender(gender)
+
+    suspend fun getMatchesByAcceptanceState(acceptanceState: Int) = matchesDao?.getMatchesByAcceptanceState(acceptanceState)
 
     suspend fun storeMatch(matchModel: MatchesModel) {
         setMatchBG(matchModel)

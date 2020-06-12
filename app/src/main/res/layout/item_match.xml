@@ -25,7 +25,7 @@
             android:layout_height="match_parent">
 
             <com.makeramen.roundedimageview.RoundedImageView
-                android:id="@+id/item_image"
+                android:id="@+id/imgvw_pic"
                 android:layout_width="@dimen/_100sdp"
                 android:layout_height="@dimen/_100sdp"
                 android:layout_marginTop="@dimen/_10sdp"
@@ -38,45 +38,44 @@
                 app:riv_border_width="@dimen/_1sdp"
                 app:riv_corner_radius="@dimen/_100sdp" />
 
-            <LinearLayout
-                android:id="@+id/match_user_info"
-                android:layout_width="match_parent"
+
+            <TextView
+                android:id="@+id/txtvw_name"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10ssp"
-                android:orientation="vertical"
-                android:padding="16dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/item_image">
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_20ssp"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/_20ssp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imgvw_pic" />
 
-                <TextView
-                    android:id="@+id/item_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="@dimen/_20ssp"
-                    android:textStyle="bold" />
+            <TextView
+                android:id="@+id/txtvw_age_gender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="@dimen/_14ssp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtvw_name" />
 
-                <TextView
-                    android:id="@+id/item_age"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:textColor="@android:color/darker_gray"
-                    android:textSize="@dimen/_16ssp"
-                    android:textStyle="bold" />
+            <TextView
+                android:id="@+id/txtvw_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="@dimen/_12ssp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtvw_age_gender" />
 
-                <TextView
-                    android:id="@+id/item_city"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:textColor="@android:color/darker_gray"
-                    android:textSize="@dimen/_16ssp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
 
             <TextView
                 android:id="@+id/txtvw_status"
@@ -91,7 +90,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/match_user_info" />
+                app:layout_constraintTop_toBottomOf="@+id/txtvw_location" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cnstrntlyt_actions"
@@ -102,7 +101,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/match_user_info">
+                app:layout_constraintTop_toBottomOf="@+id/txtvw_location">
 
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/imgvw_decline"
