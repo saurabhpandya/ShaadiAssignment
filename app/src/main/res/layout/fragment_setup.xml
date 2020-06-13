@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.fidato.shaadiassignment.main.viewmodel.MainViewModel" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_16ssp">
+
+            <TextView
+                android:id="@+id/txtvw_gender_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Gender Group"
+                android:textSize="@dimen/_12ssp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <RadioGroup
+                android:id="@+id/rdo_grp_group_by_gender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_16ssp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtvw_gender_group">
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/rdobtn_male"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Male" />
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/rdobtn_female"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Female" />
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/rdobtn_all"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="All" />
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/txtvw_age_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_16ssp"
+                android:text="Age Group"
+                android:textSize="@dimen/_12ssp"
+                android:textStyle="bold"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rdo_grp_group_by_gender" />
+
+
+            <RadioGroup
+                android:id="@+id/rdo_grp_group_by_age"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_16ssp"
+                android:orientation="vertical"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtvw_age_group">
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/rdobtn_age_group1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="18 to 22" />
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/rdobtn_age_group2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="23 to 27" />
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/rdobtn_age_group3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="28 to 32" />
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/rdobtn_age_group4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="33 to 37" />
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/rdobtn_age_group5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="38 to 42" />
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/rdobtn_age_group6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="43 to 47" />
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/rdobtn_age_group7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="48 to 52" />
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/rdobtn_age_group8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="53 and above" />
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/rdobtn_age_group9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="None of the above" />
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/txtvw_acceptance_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_16ssp"
+                android:text="Acceptance Group"
+                android:textSize="@dimen/_12ssp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rdo_grp_group_by_age" />
+
+            <RadioGroup
+                android:id="@+id/rdo_grp_group_by_acceptance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_16ssp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtvw_acceptance_group">
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/rdobtn_acptnc_accepted"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Accepted" />
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/rdobtn_acptnc_declined"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Declined" />
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/rdobtn_acptnc_new"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="New" />
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/rdobtn_acptnc_all"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="All" />
+            </RadioGroup>
+
+            <Button
+                android:id="@+id/btn_proceed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_16ssp"
+                android:text="Proceed"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rdo_grp_group_by_acceptance" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>

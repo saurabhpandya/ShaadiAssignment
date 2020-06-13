@@ -20,4 +20,10 @@ interface MatchesDao {
     @Query("SELECT * FROM matches WHERE gender = :gender ORDER BY dateAdded DESC")
     suspend fun getMatchesByGender(gender: String): List<MatchesModel>
 
+    @Query("SELECT * FROM matches WHERE isAccepted IN(:acceptanceState) AND gender IN(:genders) ORDER BY dateAdded DESC")
+    suspend fun getMatchesByAll(
+        acceptanceState: Array<Int>,
+        genders: Array<String>
+    ): List<MatchesModel>
+
 }

@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.LinearInterpolator
-import android.widget.RadioGroup
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.fidato.shaadiassignment.base.BaseFragment
@@ -15,17 +14,12 @@ import com.fidato.shaadiassignment.databinding.MainFragmentBinding
 import com.fidato.shaadiassignment.main.adapter.CardStackAdapter
 import com.fidato.shaadiassignment.main.viewmodel.MainViewModel
 import com.fidato.shaadiassignment.model.MatchesModel
-import com.fidato.shaadiassignment.utility.MatchActionListner
-import com.fidato.shaadiassignment.utility.Status
-import com.fidato.shaadiassignment.utility.Utility
+import com.fidato.shaadiassignment.utility.*
+import com.fidato.shaadiassignment.utility.Constants.Companion.ACCEPTANCE_GROUP
+import com.fidato.shaadiassignment.utility.Constants.Companion.GENDER_GROUP
 import com.yuyakaido.android.cardstackview.*
 
-class MainFragment : BaseFragment(), CardStackListener, MatchActionListner,
-    RadioGroup.OnCheckedChangeListener {
-
-    companion object {
-        fun newInstance() = MainFragment()
-    }
+class MainFragment : BaseFragment(), CardStackListener, MatchActionListner {
 
     private val TAG = MainFragment::class.java.canonicalName
 
@@ -78,12 +72,13 @@ class MainFragment : BaseFragment(), CardStackListener, MatchActionListner,
                 }
             }
         }
-
-        binding.rdoGrpGroupBy.setOnCheckedChangeListener(this)
-
     }
 
     private fun getData() {
+
+        val acceptanceGroup = arguments?.getSerializable(ACCEPTANCE_GROUP) as AcceptanceGroup
+        val genderGroup = arguments?.getSerializable(GENDER_GROUP) as GenderGroup
+
         viewModel.getMatches().observe(viewLifecycleOwner, Observer {
             when (it.status) {
                 Status.LOADING -> binding.prgrs.visibility = View.VISIBLE
@@ -92,8 +87,7 @@ class MainFragment : BaseFragment(), CardStackListener, MatchActionListner,
                     binding.prgrs.visibility = View.GONE
                     Log.d(TAG, "Sucess:${it.data}")
                     if (it.data!!) {
-                        binding.rdobtnAll.isChecked = true
-//                        setupObserver()
+                        setupObserver(acceptanceGroup, genderGroup)
                     }
                 }
             }
@@ -101,25 +95,33 @@ class MainFragment : BaseFragment(), CardStackListener, MatchActionListner,
         })
     }
 
-    private fun setupObserver() {
-        viewModel.getMatchesFromDB().observe(viewLifecycleOwner, Observer {
-            when (it.status) {
-                Status.LOADING -> binding.prgrs.visibility = View.VISIBLE
-                Status.ERROR -> binding.prgrs.visibility = View.VISIBLE
-                Status.SUCCESS -> {
-                    binding.prgrs.visibility = View.GONE
-                    if (lastPosition == -1) {
-                        stackAdapter.setMatches(0, it.data!!)
-                    } else {
-                        stackAdapter.setMatches(lastPosition, it.data!!)
+    private fun setupObserver(
+        acceptanceGroup: AcceptanceGroup,
+        genderGroup: GenderGroup
+    ) {
+
+        viewModel.getMatchesFromDB(acceptanceGroup, genderGroup)
+            .observe(viewLifecycleOwner, Observer {
+                when (it.status) {
+                    Status.LOADING -> binding.prgrs.visibility = View.VISIBLE
+                    Status.ERROR -> binding.prgrs.visibility = View.VISIBLE
+                    Status.SUCCESS -> {
+                        binding.prgrs.visibility = View.GONE
+                        if (lastPosition == -1) {
+                            stackAdapter.setMatches(0, it.data!!)
+                        } else {
+                            stackAdapter.setMatches(lastPosition, it.data!!)
+                        }
                     }
                 }
-            }
-        })
+            })
     }
 
     override fun onCardDisappeared(view: View?, position: Int) {
         lastPosition = position
+        Log.d(TAG, "onCardDisappeared:: $position")
+        if (position == stackAdapter.getMatches().size - 2)
+            getData()
     }
 
     override fun onCardDragging(direction: Direction?, ratio: Float) {
@@ -189,14 +191,6 @@ class MainFragment : BaseFragment(), CardStackListener, MatchActionListner,
         }
         manager.setSwipeAnimationSetting(setting.build())
         binding.cardStackView.swipe()
-    }
-
-    override fun onCheckedChanged(group: RadioGroup?, checkedId: Int) {
-        when (checkedId) {
-            binding.rdobtnMale.id -> getMatchesByGender("male")
-            binding.rdobtnFemale.id -> getMatchesByGender("female")
-            binding.rdobtnAll.id -> setupObserver()
-        }
     }
 
     private fun getMatchesByGender(gender: String) {

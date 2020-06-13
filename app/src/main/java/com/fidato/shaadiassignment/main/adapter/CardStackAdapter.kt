@@ -46,7 +46,7 @@ class CardStackAdapter(
 
     fun setMatches(lastPos: Int, matchesModelList: ArrayList<MatchesModel>) {
         if (lastPos == 0) {
-            this.matchesModelList.clear()
+            this.matchesModelList = ArrayList<MatchesModel>()
             this.matchesModelList = matchesModelList
             notifyDataSetChanged()
         } else {

@@ -17,88 +17,6 @@
         android:layout_height="match_parent"
         tools:context=".main.view.MainFragment">
 
-        <RadioGroup
-            android:id="@+id/rdo_grp_group_by"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_16ssp"
-            android:orientation="horizontal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <androidx.appcompat.widget.AppCompatRadioButton
-                android:id="@+id/rdobtn_male"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:text="Male" />
-
-            <androidx.appcompat.widget.AppCompatRadioButton
-                android:id="@+id/rdobtn_female"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:text="Female" />
-
-            <androidx.appcompat.widget.AppCompatRadioButton
-                android:id="@+id/rdobtn_all"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:text="All" />
-        </RadioGroup>
-
-        <TextView
-            android:id="@+id/txtvw_age_group"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_16ssp"
-            android:text="Age Group"
-            android:textSize="@dimen/_12ssp"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rdo_grp_group_by" />
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/txtinptedttxt_fromage"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_16ssp"
-            android:layout_marginEnd="@dimen/_16ssp"
-            android:hint="From Age"
-            android:inputType="numberSigned"
-            android:visibility="gone"
-            app:layout_constraintEnd_toStartOf="@+id/txtinptedttxt_toage"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtvw_age_group" />
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/txtinptedttxt_toage"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_16ssp"
-            android:layout_marginEnd="@dimen/_16ssp"
-            android:hint="To Age"
-            android:inputType="numberSigned"
-            android:visibility="gone"
-            app:layout_constraintEnd_toStartOf="@+id/btn_show_by_age_group"
-            app:layout_constraintStart_toEndOf="@+id/txtinptedttxt_fromage"
-            app:layout_constraintTop_toBottomOf="@+id/txtvw_age_group" />
-
-        <Button
-            android:id="@+id/btn_show_by_age_group"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/_16ssp"
-            android:layout_marginRight="@dimen/_16ssp"
-            android:text="Show"
-            android:textAllCaps="false"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/txtinptedttxt_toage"
-            app:layout_constraintTop_toBottomOf="@+id/txtvw_age_group" />
-
         <com.yuyakaido.android.cardstackview.CardStackView
             android:id="@+id/card_stack_view"
             android:layout_width="0dp"
@@ -109,7 +27,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_min="@dimen/_350sdp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtinptedttxt_fromage" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <include
             android:id="@+id/no_data"

@@ -8,6 +8,8 @@ import com.fidato.shaadiassignment.base.BaseViewModel
 import com.fidato.shaadiassignment.main.data.MainRepository
 import com.fidato.shaadiassignment.model.Matches
 import com.fidato.shaadiassignment.model.MatchesModel
+import com.fidato.shaadiassignment.utility.AcceptanceGroup
+import com.fidato.shaadiassignment.utility.GenderGroup
 import com.fidato.shaadiassignment.utility.Resource
 import com.fidato.shaadiassignment.utility.Utility
 import kotlinx.coroutines.Dispatchers
@@ -78,8 +80,10 @@ class MainViewModel(application: Application, private val mainRepository: MainRe
     fun getMatchesByAcceptanceState(acceptanceState: Int) = liveData(Dispatchers.IO) {
         emit(Resource.loading(null))
         try {
-            matchesList = ArrayList(
-                mainRepository.getMatchesByAcceptanceState(acceptanceState) ?: matchesList
+            matchesList.addAll(
+                ArrayList(
+                    mainRepository.getMatchesByAcceptanceState(acceptanceState) ?: matchesList
+                )
             )
             emit(Resource.success(matchesList))
         } catch (e: Exception) {
@@ -92,7 +96,7 @@ class MainViewModel(application: Application, private val mainRepository: MainRe
     fun getMatchesByGender(gender: String) = liveData(Dispatchers.IO) {
         emit(Resource.loading(null))
         try {
-            matchesList = ArrayList(mainRepository.getMatchesByGender(gender) ?: matchesList)
+            matchesList.addAll(ArrayList(mainRepository.getMatchesByGender(gender) ?: matchesList))
             emit(Resource.success(matchesList))
         } catch (e: Exception) {
             e.printStackTrace()
@@ -100,18 +104,39 @@ class MainViewModel(application: Application, private val mainRepository: MainRe
         }
     }
 
-    fun getMatchesFromDB() = liveData(Dispatchers.IO) {
-        emit(Resource.loading(null))
-        try {
-            matchesList = ArrayList(mainRepository.getMatches() ?: matchesList)
-            Log.d(TAG, "setupObserver:: $matchesList")
-            emit(Resource.success(matchesList))
-        } catch (e: Exception) {
-            e.printStackTrace()
-            emit(Resource.error(null, e.message ?: "Error Occured"))
-        }
+    fun getMatchesFromDB(acceptanceGroup: AcceptanceGroup, genderGroup: GenderGroup) =
+        liveData(Dispatchers.IO) {
+            emit(Resource.loading(null))
+            try {
 
-    }
+                lateinit var acceptanceStates: Array<Int>
+                when (acceptanceGroup) {
+                    AcceptanceGroup.ACCEPTED -> acceptanceStates = acceptanceGroup.getAccepted()
+                    AcceptanceGroup.DECLINED -> acceptanceStates = acceptanceGroup.getDeclined()
+                    AcceptanceGroup.NEW -> acceptanceStates = acceptanceGroup.getNew()
+                    AcceptanceGroup.ALL -> acceptanceStates = acceptanceGroup.getAll()
+                }
+
+                lateinit var genders: Array<String>
+                when (genderGroup) {
+                    GenderGroup.MALE -> genders = genderGroup.getMale()
+                    GenderGroup.FEMALE -> genders = genderGroup.getFemale()
+                    GenderGroup.ALL -> genders = genderGroup.getAll()
+                }
+
+                matchesList.addAll(
+                    ArrayList(
+                        mainRepository.getMatches(acceptanceStates, genders) ?: emptyList()
+                    )
+                )
+                Log.d(TAG, "setupObserver:: $matchesList")
+                emit(Resource.success(matchesList))
+            } catch (e: Exception) {
+                e.printStackTrace()
+                emit(Resource.error(null, e.message ?: "Error Occured"))
+            }
+
+        }
 
     fun updateMatch(matchModel: MatchesModel) {
         viewModelScope.launch {
